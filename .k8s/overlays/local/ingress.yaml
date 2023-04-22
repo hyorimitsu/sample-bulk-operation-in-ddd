@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sample-bulk-operation-in-ddd-ingress
+  namespace: sample-bulk-operation-in-ddd
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  rules:
+    - host: "sample-bulk-operation-in-ddd.localhost.com"
+      http:
+        paths:
+          - path: /api/(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: sample-bulk-operation-in-ddd-api
+                port:
+                  number: 8080
