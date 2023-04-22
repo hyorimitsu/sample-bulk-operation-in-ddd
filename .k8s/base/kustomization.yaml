@@ -1,0 +1,5 @@
+namespace: sample-bulk-operation-in-ddd
+resources:
+  - namespace.yaml
+  - api/deployment.yaml
+  - api/configmap.yaml

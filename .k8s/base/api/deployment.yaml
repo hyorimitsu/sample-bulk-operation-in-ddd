@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sample-bulk-operation-in-ddd-api
+  labels:
+    app: sample-bulk-operation-in-ddd-api
+spec:
+  ports:
+    - port: 8080
+  selector:
+    app: sample-bulk-operation-in-ddd-api
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-bulk-operation-in-ddd-api
+  labels:
+    app: sample-bulk-operation-in-ddd-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sample-bulk-operation-in-ddd-api
+  template:
+    metadata:
+      labels:
+        app: sample-bulk-operation-in-ddd-api
+    spec:
+      containers:
+        - name: sample-bulk-operation-in-ddd-api
+          image: sample-bulk-operation-in-ddd/api
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: sample-bulk-operation-in-ddd-api-config
