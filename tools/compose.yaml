@@ -1,0 +1,7 @@
+services:
+  go-mod:
+    image: golang:1.20.3-alpine3.17
+    volumes:
+      - ../api:/go/src/github.com/hyorimitsu/sample-bulk-operation-in-ddd/api
+    working_dir: /go/src/github.com/hyorimitsu/sample-bulk-operation-in-ddd/api
+    command: sh -c 'go mod tidy && go mod vendor'
