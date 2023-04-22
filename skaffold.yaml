@@ -1,0 +1,26 @@
+apiVersion: skaffold/v4beta2
+kind: Config
+metadata:
+  name: sample-bulk-operation-in-ddd
+build:
+  tagPolicy:
+    envTemplate:
+      template: "latest"
+  artifacts:
+    - image: sample-bulk-operation-in-ddd/api
+      context: ./api
+  local:
+    push: false
+    useBuildkit: true
+profiles:
+  - name: local
+    activation:
+      - env: ENV=local
+      - kubeContext: minikube
+        command: dev
+    manifests:
+      kustomize:
+        paths:
+          - ./.k8s/overlays/local
+    deploy:
+      kubectl: {}
