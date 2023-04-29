@@ -5,3 +5,10 @@ patches:
   - target:
       kind: ConfigMap
     path: api/configmap.yaml
+helmCharts:
+  - name: mysql
+    repo: https://charts.bitnami.com/bitnami
+    version: 9.8.2
+    namespace: sample-bulk-operation-in-ddd
+    releaseName: sample-bulk-operation-in-ddd-mysql
+    valuesFile: mysql-values.yaml

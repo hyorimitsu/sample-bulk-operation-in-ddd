@@ -1,0 +1,7 @@
+networkPolicy:
+  enabled: true
+auth:
+  rootPassword: root
+  database: db
+  username: user
+  password: password

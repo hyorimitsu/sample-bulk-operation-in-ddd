@@ -22,5 +22,6 @@ profiles:
       kustomize:
         paths:
           - ./.k8s/overlays/local
+        buildArgs: [ "--enable-helm" ]
     deploy:
       kubectl: {}
