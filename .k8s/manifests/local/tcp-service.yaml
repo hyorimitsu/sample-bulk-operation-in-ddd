@@ -1,0 +1,9 @@
+# For patching resources created by Minikube's Ingress addon.
+# Allows routing of traffic to TCP service (MySQL) by Ingress nginx.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tcp-services
+  namespace: ingress-nginx
+data:
+  "3306": sample-bulk-operation-in-ddd/sample-bulk-operation-in-ddd-mysql:3306

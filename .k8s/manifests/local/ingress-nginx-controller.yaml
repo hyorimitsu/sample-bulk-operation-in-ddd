@@ -1,0 +1,15 @@
+# For patching resources created by Minikube's Ingress addon.
+# Allows routing of traffic to TCP service (MySQL) by Ingress nginx.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ingress-nginx-controller
+  namespace: ingress-nginx
+spec:
+  template:
+    spec:
+      containers:
+        - name: controller
+          ports:
+            - containerPort: 3306
+              hostPort: 3306

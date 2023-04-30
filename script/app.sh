@@ -7,6 +7,9 @@ if [ "x$1" = "xrun" ]; then
         minikube addons enable ingress --profile "$PROJECT_NAME"
         # Update /etc/hosts
         ./script/host-updater.sh "$PROJECT_NAME"
+        # Apply patches to ingress-related resources applied by minikube addon
+        kubectl patch configmap tcp-services -n ingress-nginx --patch "$(cat ./.k8s/manifests/local/tcp-service.yaml)"
+        kubectl patch deployment ingress-nginx-controller -n ingress-nginx --patch "$(cat ./.k8s/manifests/local/ingress-nginx-controller.yaml)"
     else
         # On second or subsequent startup
         minikube start --driver=virtualbox --profile "$PROJECT_NAME"
