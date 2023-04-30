@@ -1,0 +1,15 @@
+[mysqld]
+character-set-server=utf8mb4
+collation-server=utf8mb4_unicode_ci
+general_log=0
+general_log_file=/var/log/mysql/general.log
+log_output=FILE
+slow_query_log=1
+slow_query_log_file=/var/log/mysql/slow-query.log
+long_query_time=0.01
+log_queries_not_using_indexes
+log_slow_admin_statements
+sql_mode=STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
+
+[mysql]
+default-character-set=utf8mb4
