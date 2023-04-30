@@ -22,6 +22,10 @@ elif [ "x$1" = "xstop" ]; then
     skaffold delete
     minikube stop --profile "$PROJECT_NAME"
 
+# migrate
+elif [ "x$1" = "xmigrate" ]; then
+    skaffold apply ./.k8s/base/flyway/job.yaml -n "$PROJECT_NAME"
+
 elif [ "x$1" = "xlogs" ]; then
     NAMESPACES=("sample-bulk-operation-in-ddd")
     for NS in ${NAMESPACES[@]}; do

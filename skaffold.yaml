@@ -9,6 +9,8 @@ build:
   artifacts:
     - image: sample-bulk-operation-in-ddd/api
       context: ./api
+    - image: sample-bulk-operation-in-ddd/flyway
+      context: ./database
   local:
     push: false
     useBuildkit: true

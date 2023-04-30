@@ -5,6 +5,9 @@ patches:
   - target:
       kind: ConfigMap
     path: api/configmap.yaml
+  - target:
+      kind: ConfigMap
+    path: flyway/configmap.yaml
 helmCharts:
   - name: mysql
     repo: https://charts.bitnami.com/bitnami

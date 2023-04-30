@@ -9,6 +9,9 @@ stop down:
 deps:
 	docker compose -f ./tools/compose.yaml run --rm go-mod
 
+migrate:
+	./script/app.sh migrate
+
 logs-%:
 	./script/app.sh logs $*
 

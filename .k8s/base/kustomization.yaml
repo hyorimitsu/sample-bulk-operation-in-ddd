@@ -3,3 +3,4 @@ resources:
   - namespace.yaml
   - api/deployment.yaml
   - api/configmap.yaml
+  - flyway/configmap.yaml

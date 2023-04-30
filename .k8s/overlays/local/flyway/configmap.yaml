@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sample-bulk-operation-in-ddd-flyway-config
+data:
+  FLYWAY_URL: "jdbc:mysql://sample-bulk-operation-in-ddd-mysql:3306/db?charset=utf8mb4&collation=utf8_unicode_ci&parseTime=true"
+  FLYWAY_SCHEMAS: "db"
+  FLYWAY_USER: "user"
+  FLYWAY_PASSWORD: "password"
+  FLYWAY_LOCATIONS: "filesystem:sql/common-migrations,filesystem:sql/common-seeds,filesystem:sql/local"
+  FLYWAY_ENCODING: "UTF-8"
+  FLYWAY_CLEAN_DISABLED: "false"

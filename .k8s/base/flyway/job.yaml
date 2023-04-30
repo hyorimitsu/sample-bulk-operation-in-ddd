@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: sample-bulk-operation-in-ddd-flyway
+  labels:
+    app: sample-bulk-operation-in-ddd-flyway
+spec:
+  backoffLimit: 0
+  parallelism: 1
+  completions: 1
+  ttlSecondsAfterFinished: 0
+  template:
+    spec:
+      containers:
+        - name: sample-bulk-operation-in-ddd-flyway
+          image: sample-bulk-operation-in-ddd/flyway
+          args: ['migrate']
+          envFrom:
+            - configMapRef:
+                name: sample-bulk-operation-in-ddd-flyway-config
+          imagePullPolicy: Never
+      restartPolicy: Never
