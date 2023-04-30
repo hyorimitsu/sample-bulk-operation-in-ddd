@@ -3,4 +3,6 @@ kind: ConfigMap
 metadata:
   name: sample-bulk-operation-in-ddd-api-config
 data:
+  DATA_SOURCE_URL: "user:password@tcp(sample-bulk-operation-in-ddd-mysql.sample-bulk-operation-in-ddd.svc.cluster.local:3306)/db?charset=utf8mb4&parseTime=True&loc=Local"
+  BASE_URL: "/api"
   PORT: "8080"
