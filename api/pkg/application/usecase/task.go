@@ -13,10 +13,10 @@ import (
 )
 
 type TaskUseCaser interface {
-	ListTodos(ctx context.Context) (dto.Tasks, error)
-	CreateTodo(ctx context.Context, param *input.TaskCreateParam) error
-	UpdateTodo(ctx context.Context, id string, param *input.TaskUpdateParam) error
-	DeleteTodo(ctx context.Context, id string) error
+	ListTasks(ctx context.Context) (dto.Tasks, error)
+	CreateTask(ctx context.Context, param *input.TaskCreateParam) error
+	UpdateTask(ctx context.Context, id string, param *input.TaskUpdateParam) error
+	DeleteTask(ctx context.Context, id string) error
 }
 
 type TaskUseCase struct {
@@ -34,11 +34,11 @@ func NewTaskUseCase(
 	}
 }
 
-func (u *TaskUseCase) ListTodos(ctx context.Context) (dto.Tasks, error) {
+func (u *TaskUseCase) ListTasks(ctx context.Context) (dto.Tasks, error) {
 	return u.taskQueryService.List(ctx)
 }
 
-func (u *TaskUseCase) CreateTodo(ctx context.Context, param *input.TaskCreateParam) error {
+func (u *TaskUseCase) CreateTask(ctx context.Context, param *input.TaskCreateParam) error {
 	ent, err := entity.NewTask(param.Title, param.DueDate)
 	if err != nil {
 		return err
@@ -46,7 +46,7 @@ func (u *TaskUseCase) CreateTodo(ctx context.Context, param *input.TaskCreatePar
 	return u.taskDomainService.Create(ctx, ent)
 }
 
-func (u *TaskUseCase) UpdateTodo(ctx context.Context, id string, param *input.TaskUpdateParam) error {
+func (u *TaskUseCase) UpdateTask(ctx context.Context, id string, param *input.TaskUpdateParam) error {
 	parsedId, err := uuid.Parse(id)
 	if err != nil {
 		return err
@@ -64,7 +64,7 @@ func (u *TaskUseCase) UpdateTodo(ctx context.Context, id string, param *input.Ta
 	return u.taskDomainService.Update(ctx, ent)
 }
 
-func (u *TaskUseCase) DeleteTodo(ctx context.Context, id string) error {
+func (u *TaskUseCase) DeleteTask(ctx context.Context, id string) error {
 	parsedId, err := uuid.Parse(id)
 	if err != nil {
 		return err

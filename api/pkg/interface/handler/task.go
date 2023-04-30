@@ -18,7 +18,7 @@ func (h taskHandler) ListTasks(ctx echo.Context) error {
 	c := ctx.Request().Context()
 
 	u := h.reg.TaskUseCaser
-	dtos, err := u.ListTodos(c)
+	dtos, err := u.ListTasks(c)
 	if err != nil {
 		return ctx.JSON(http.StatusInternalServerError, err)
 	}
@@ -35,7 +35,7 @@ func (h taskHandler) CreateTask(ctx echo.Context) error {
 	}
 
 	u := h.reg.TaskUseCaser
-	if err := u.CreateTodo(c, &p); err != nil {
+	if err := u.CreateTask(c, &p); err != nil {
 		return ctx.JSON(http.StatusInternalServerError, err)
 	}
 
@@ -53,7 +53,7 @@ func (h taskHandler) UpdateTask(ctx echo.Context) error {
 	}
 
 	u := h.reg.TaskUseCaser
-	if err := u.UpdateTodo(c, id, &p); err != nil {
+	if err := u.UpdateTask(c, id, &p); err != nil {
 		return ctx.JSON(http.StatusInternalServerError, err)
 	}
 
@@ -66,7 +66,7 @@ func (h taskHandler) DeleteTask(ctx echo.Context) error {
 	id := ctx.Param("id")
 
 	u := h.reg.TaskUseCaser
-	if err := u.DeleteTodo(c, id); err != nil {
+	if err := u.DeleteTask(c, id); err != nil {
 		return ctx.JSON(http.StatusInternalServerError, err)
 	}
 
