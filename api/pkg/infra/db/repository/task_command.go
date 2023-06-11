@@ -57,11 +57,13 @@ func (r *TaskCommandRepository) Update(ctx context.Context, ent *entity.Task) er
 }
 
 func (r *TaskCommandRepository) BulkUpdate(ctx context.Context, cmd cmd.Command[entity.Task]) error {
+	query, params := cmd.ToQueryWithParams()
+	values := cmd.Updates()
 	return r.db.
 		WithContext(ctx).
 		Model(&model.Task{}).
-		Where(cmd.ToQueryWithParams()).
-		Updates(cmd.Updates()).
+		Where(query, params...).
+		Updates(values).
 		Error
 }
 

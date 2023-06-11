@@ -20,7 +20,8 @@ func NewUpdateExpiredTaskToDoneCommand() Command[entity.Task] {
 
 	specification := overDueDateSpec.And(completedSpec.Not())
 	updates := map[string]interface{}{
-		"status": value.TaskStatusDone,
+		"status":   value.TaskStatusDone,
+		"progress": 100,
 	}
 
 	return &UpdateExpiredTaskToDoneCommand{
@@ -36,11 +37,5 @@ func (c *UpdateExpiredTaskToDoneCommand) Execute(ent *entity.Task) error {
 	if !c.CanExecute(ent) {
 		return errors.New("unable to execute update task state command")
 	}
-
-	status, ok := c.Updates()["status"].(value.TaskStatus)
-	if !ok {
-		return errors.New("unable to cast to value.TaskState")
-	}
-
-	return ent.UpdateStatus(status.String())
+	return ent.UpdateStatus(value.TaskStatusDone.String())
 }
