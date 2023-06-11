@@ -8,6 +8,7 @@ import (
 	"github.com/hyorimitsu/sample-bulk-operation-in-ddd/api/pkg/application/dto"
 	"github.com/hyorimitsu/sample-bulk-operation-in-ddd/api/pkg/application/input"
 	"github.com/hyorimitsu/sample-bulk-operation-in-ddd/api/pkg/application/queryservice"
+	"github.com/hyorimitsu/sample-bulk-operation-in-ddd/api/pkg/domain/cmd"
 	"github.com/hyorimitsu/sample-bulk-operation-in-ddd/api/pkg/domain/domainservice"
 	"github.com/hyorimitsu/sample-bulk-operation-in-ddd/api/pkg/domain/entity"
 )
@@ -16,6 +17,8 @@ type TaskUseCaser interface {
 	ListTasks(ctx context.Context) (dto.Tasks, error)
 	CreateTask(ctx context.Context, param *input.TaskCreateParam) error
 	UpdateTask(ctx context.Context, id string, param *input.TaskUpdateParam) error
+	UpdateExpiredTaskToDone(ctx context.Context, id string) error
+	BulkUpdateExpiredTasksToDone(ctx context.Context) error
 	DeleteTask(ctx context.Context, id string) error
 }
 
@@ -62,6 +65,30 @@ func (u *TaskUseCase) UpdateTask(ctx context.Context, id string, param *input.Ta
 	}
 
 	return u.taskDomainService.Update(ctx, ent)
+}
+
+func (u *TaskUseCase) UpdateExpiredTaskToDone(ctx context.Context, id string) error {
+	parsedId, err := uuid.Parse(id)
+	if err != nil {
+		return err
+	}
+
+	ent, err := u.taskDomainService.FindByID(ctx, parsedId)
+	if err != nil {
+		return err
+	}
+
+	command := cmd.NewUpdateExpiredTaskToDoneCommand()
+	if err := command.Execute(ent); err != nil {
+		return err
+	}
+
+	return u.taskDomainService.Update(ctx, ent)
+}
+
+func (u *TaskUseCase) BulkUpdateExpiredTasksToDone(ctx context.Context) error {
+	command := cmd.NewUpdateExpiredTaskToDoneCommand()
+	return u.taskDomainService.BulkUpdate(ctx, command)
 }
 
 func (u *TaskUseCase) DeleteTask(ctx context.Context, id string) error {
