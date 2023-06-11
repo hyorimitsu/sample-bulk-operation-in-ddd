@@ -7,6 +7,7 @@ import (
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 
+	"github.com/hyorimitsu/sample-bulk-operation-in-ddd/api/pkg/domain/cmd"
 	"github.com/hyorimitsu/sample-bulk-operation-in-ddd/api/pkg/domain/entity"
 	"github.com/hyorimitsu/sample-bulk-operation-in-ddd/api/pkg/infra/db/model"
 )
@@ -52,6 +53,17 @@ func (r *TaskCommandRepository) Update(ctx context.Context, ent *entity.Task) er
 		WithContext(ctx).
 		Model(mdl).
 		Updates(mdl.ToUpdateFieldMap()).
+		Error
+}
+
+func (r *TaskCommandRepository) BulkUpdate(ctx context.Context, cmd cmd.Command[entity.Task]) error {
+	query, params := cmd.ToQueryWithParams()
+	values := cmd.Updates()
+	return r.db.
+		WithContext(ctx).
+		Model(&model.Task{}).
+		Where(query, params...).
+		Updates(values).
 		Error
 }
 

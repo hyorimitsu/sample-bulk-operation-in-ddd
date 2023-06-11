@@ -60,6 +60,30 @@ func (h taskHandler) UpdateTask(ctx echo.Context) error {
 	return ctx.JSON(http.StatusNoContent, nil)
 }
 
+func (h taskHandler) UpdateExpiredTaskToDone(ctx echo.Context) error {
+	c := ctx.Request().Context()
+
+	id := ctx.Param("id")
+
+	u := h.reg.TaskUseCaser
+	if err := u.UpdateExpiredTaskToDone(c, id); err != nil {
+		return ctx.JSON(http.StatusInternalServerError, err)
+	}
+
+	return ctx.JSON(http.StatusNoContent, nil)
+}
+
+func (h taskHandler) BulkUpdateExpiredTasksToDone(ctx echo.Context) error {
+	c := ctx.Request().Context()
+
+	u := h.reg.TaskUseCaser
+	if err := u.BulkUpdateExpiredTasksToDone(c); err != nil {
+		return ctx.JSON(http.StatusInternalServerError, err)
+	}
+
+	return ctx.JSON(http.StatusNoContent, nil)
+}
+
 func (h taskHandler) DeleteTask(ctx echo.Context) error {
 	c := ctx.Request().Context()
 
