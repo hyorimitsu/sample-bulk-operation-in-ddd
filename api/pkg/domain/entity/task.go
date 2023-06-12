@@ -38,19 +38,21 @@ func (e *Task) UpdateStatus(statusStr string) error {
 	}
 
 	e.status = status
-	e.updateProgressByStatus()
+	e.progress = e.calcProgress()
 
 	return nil
 }
 
-func (e *Task) updateProgressByStatus() {
+func (e *Task) calcProgress() int {
 	switch e.status {
 	case value.TaskStatusNone:
-		e.progress = 0
+		return 0
 	case value.TaskStatusInProgress:
-		e.progress = 50
+		return 50
 	case value.TaskStatusDone:
-		e.progress = 100
+		return 100
+	default:
+		return e.progress
 	}
 }
 
