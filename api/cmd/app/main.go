@@ -26,13 +26,13 @@ func main() {
 func run() int {
 	dbConn, err := db.NewDBConn(config.DataSourceURL)
 	if err != nil {
-		fmt.Println(fmt.Sprintf("[Error] unable to new db connection: %v", err))
+		fmt.Printf("[Error] unable to new db connection: %v\n", err)
 		return 1
 	}
 
 	appDB, err := db.NewDB(dbConn)
 	if err != nil {
-		fmt.Println(fmt.Sprintf("[Error] unable to new db: %v", err))
+		fmt.Printf("[Error] unable to new db: %v\n", err)
 		return 1
 	}
 
@@ -50,7 +50,7 @@ func run() int {
 	go func() {
 		addr := fmt.Sprintf("0.0.0.0:%d", config.Port)
 		if err := e.Start(addr); err != nil && err != http.ErrServerClosed {
-			fmt.Println(fmt.Sprintf("[Error] unable to start: %v", err))
+			fmt.Printf("[Error] unable to start: %v\n", err)
 		}
 	}()
 
@@ -59,11 +59,11 @@ func run() int {
 
 	<-ctx.Done()
 
-	shutdownCtx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	timeoutCtx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	if err := e.Shutdown(shutdownCtx); err != nil {
-		fmt.Println(fmt.Sprintf("[Error] unable to shutdown: %v", err))
+	if err := e.Shutdown(timeoutCtx); err != nil {
+		fmt.Printf("[Error] unable to shutdown: %v\n", err)
 	}
 	return 0
 }
