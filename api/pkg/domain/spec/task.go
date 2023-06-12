@@ -28,6 +28,7 @@ func (s *OverDueDateSpecification) IsSatisfiedBy(task *entity.Task) bool {
 
 // ToQueryWithParams returns the query representation and params of the specification specified by OverDueDateSpecification.
 func (s *OverDueDateSpecification) ToQueryWithParams() (string, []interface{}) {
+	// TODO: SQL should depend on the repository layer and should not be described here (in the domain layer). Some kind of ingenuity, such as query abstraction, needs to be implemented.
 	return "due_date < ?", []interface{}{time.Now()}
 }
 
@@ -52,5 +53,6 @@ func (s *CompletedSpecification) IsSatisfiedBy(task *entity.Task) bool {
 
 // ToQueryWithParams returns the query representation and params of the specification specified by CompletedSpecification.
 func (s *CompletedSpecification) ToQueryWithParams() (string, []interface{}) {
+	// TODO: SQL should depend on the repository layer and should not be described here (in the domain layer). Some kind of ingenuity, such as query abstraction, needs to be implemented.
 	return "status = ?", []interface{}{value.TaskStatusDone}
 }
