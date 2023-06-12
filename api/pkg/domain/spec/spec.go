@@ -34,6 +34,7 @@ func (as *AndSpecification[E]) IsSatisfiedBy(ent *E) bool {
 func (as *AndSpecification[E]) ToQueryWithParams() (string, []interface{}) {
 	query1, params1 := as.Specification.ToQueryWithParams()
 	query2, params2 := as.compare.ToQueryWithParams()
+	// TODO: SQL should depend on the repository layer and should not be described here (in the domain layer). Some kind of ingenuity, such as query abstraction, needs to be implemented.
 	return fmt.Sprintf("(%s AND %s)", query1, query2), append(params1, params2...)
 }
 
@@ -50,6 +51,7 @@ func (os *OrSpecification[E]) IsSatisfiedBy(ent *E) bool {
 func (os *OrSpecification[E]) ToQueryWithParams() (string, []interface{}) {
 	query1, params1 := os.Specification.ToQueryWithParams()
 	query2, params2 := os.compare.ToQueryWithParams()
+	// TODO: SQL should depend on the repository layer and should not be described here (in the domain layer). Some kind of ingenuity, such as query abstraction, needs to be implemented.
 	return fmt.Sprintf("(%s OR %s)", query1, query2), append(params1, params2...)
 }
 
@@ -64,6 +66,7 @@ func (ns *NotSpecification[E]) IsSatisfiedBy(ent *E) bool {
 
 func (ns *NotSpecification[E]) ToQueryWithParams() (string, []interface{}) {
 	query, params := ns.Specification.ToQueryWithParams()
+	// TODO: SQL should depend on the repository layer and should not be described here (in the domain layer). Some kind of ingenuity, such as query abstraction, needs to be implemented.
 	return fmt.Sprintf("NOT(%s)", query), params
 }
 
@@ -74,6 +77,10 @@ type BaseSpecification[E any] struct {
 
 func (bs *BaseSpecification[E]) IsSatisfiedBy(ent *E) bool {
 	return false
+}
+
+func (bs *BaseSpecification[E]) ToQueryWithParams() (string, []interface{}) {
+	return "", []interface{}{}
 }
 
 func (bs *BaseSpecification[E]) And(spec Specification[E]) Specification[E] {
@@ -104,8 +111,4 @@ func (bs *BaseSpecification[E]) Not() Specification[E] {
 
 func (bs *BaseSpecification[E]) Relate(spec Specification[E]) {
 	bs.Specification = spec
-}
-
-func (bs *BaseSpecification[E]) ToQueryWithParams() (string, []interface{}) {
-	return "", []interface{}{}
 }

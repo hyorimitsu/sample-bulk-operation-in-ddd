@@ -19,15 +19,16 @@ func NewUpdateExpiredTaskToDoneCommand() Command[entity.Task] {
 	completedSpec := spec.NewCompletedSpecification()
 
 	specification := overDueDateSpec.And(completedSpec.Not())
-	updates := map[string]interface{}{
-		"status":   value.TaskStatusDone,
+	values := map[string]interface{}{
+		"status": value.TaskStatusDone,
+		// TODO: The behavior of `progress` when `status` is updated is defined in entity.Task. To avoid scattered definitions, it should be reused here.
 		"progress": 100,
 	}
 
 	return &UpdateExpiredTaskToDoneCommand{
 		Command: &BaseCommand[entity.Task]{
-			spec:    specification,
-			updates: updates,
+			spec:   specification,
+			values: values,
 		},
 	}
 }

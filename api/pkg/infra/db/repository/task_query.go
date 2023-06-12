@@ -23,7 +23,7 @@ func (r *TaskQueryRepository) List(ctx context.Context) (dto.Tasks, error) {
 	var mdls model.Tasks
 
 	err := r.db.
-		Order("due_date").
+		Order("created_at DESC").
 		Find(&mdls).
 		Error
 

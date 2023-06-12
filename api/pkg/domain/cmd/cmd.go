@@ -14,14 +14,14 @@ type Command[E any] interface {
 
 	// ToQueryWithParams returns the query and params of the command. For bulk operation.
 	ToQueryWithParams() (string, []interface{})
-	// Updates returns the value map the command. For bulk operation.
-	Updates() map[string]interface{}
+	// Values returns the values of the command. For bulk operation.
+	Values() map[string]interface{}
 }
 
 // BaseCommand is a basic structure for commands on an entity.
 type BaseCommand[E any] struct {
-	spec    spec.Specification[E]
-	updates map[string]interface{}
+	spec   spec.Specification[E]
+	values map[string]interface{}
 }
 
 func (bc *BaseCommand[E]) CanExecute(ent *E) bool {
@@ -36,6 +36,6 @@ func (bc *BaseCommand[E]) ToQueryWithParams() (string, []interface{}) {
 	return bc.spec.ToQueryWithParams()
 }
 
-func (bc *BaseCommand[E]) Updates() map[string]interface{} {
-	return bc.updates
+func (bc *BaseCommand[E]) Values() map[string]interface{} {
+	return bc.values
 }

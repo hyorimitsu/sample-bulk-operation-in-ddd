@@ -60,6 +60,8 @@ func (u *TaskUseCase) UpdateTask(ctx context.Context, id string, param *input.Ta
 		return err
 	}
 
+	// This is an unconditional update pattern without using `specification` and `command`.
+	// If it is undesirable to have a mixture of patterns that use and do not use command, one option would be to implement something like UpdateTaskCommand.
 	if err := ent.UpdateStatus(param.Status); err != nil {
 		return err
 	}
@@ -78,6 +80,7 @@ func (u *TaskUseCase) UpdateExpiredTaskToDone(ctx context.Context, id string) er
 		return err
 	}
 
+	// This is an in-memory update pattern using `specification` and `command`.
 	command := cmd.NewUpdateExpiredTaskToDoneCommand()
 	if err := command.Execute(ent); err != nil {
 		return err
@@ -87,6 +90,7 @@ func (u *TaskUseCase) UpdateExpiredTaskToDone(ctx context.Context, id string) er
 }
 
 func (u *TaskUseCase) BulkUpdateExpiredTasksToDone(ctx context.Context) error {
+	// This is an bulk update pattern using `specification` and `command`.
 	command := cmd.NewUpdateExpiredTaskToDoneCommand()
 	return u.taskDomainService.BulkUpdate(ctx, command)
 }
