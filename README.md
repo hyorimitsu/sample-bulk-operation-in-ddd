@@ -129,7 +129,7 @@ For detailed implementation methods, please refer to the following.
       For example, a list of tasks can be obtained by calling the API as follows.
       
       ```
-      curl http://sample-bulk-operation-in-ddd.localhost.com:8080/api/tasks
+      curl http://sample-bulk-operation-in-ddd.localhost.com/api/tasks
       ```
 
 4. Stop the application in minikube
